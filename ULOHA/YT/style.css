@@ -1,0 +1,76 @@
+    h1{
+    text-align: center;
+}
+
+.search{
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.search input{
+    width: 300px;
+    height: 30px;
+}
+
+.search button{
+    height: 36px;
+}
+
+.container {
+            display: grid;
+           grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+    }
+
+.karta1{
+    width: 250px;
+    display:inline-block;
+}
+
+.thumbnail{
+    width: 250px;
+    height: 140px;
+    object-fit: cover;
+    margin: 0;
+    border-radius: 8px;
+}
+
+.info{
+    display: flex;
+    margin-top: 8px;
+    align-items: flex-start;
+}
+
+.profilovka{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 10px 0 0;
+}
+
+.text{
+
+    width: 170px;
+}
+
+.name1{
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.views1{
+    color: gray;
+    font-size: 12px;
+}
+
+.more{
+    font-size: 22px;
+    margin-left: 10px;
+}
+
+.karta1:hover {
+    background-color: #e0e0e0;
+}

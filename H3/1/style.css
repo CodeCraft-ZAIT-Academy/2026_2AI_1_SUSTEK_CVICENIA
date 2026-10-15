@@ -1,0 +1,25 @@
+.header {
+    background-color: aqua;
+}
+
+.number {
+    text-align: right;
+}
+
+table, th, td {
+    border: 10px solid;
+}
+
+table {
+    background-color: blueviolet;
+    border-collapse: collapse;
+}
+
+tr:nth-child(even) {
+    background-color: green;
+
+}
+
+.nezucastnil {
+   background-color: red;
+}
