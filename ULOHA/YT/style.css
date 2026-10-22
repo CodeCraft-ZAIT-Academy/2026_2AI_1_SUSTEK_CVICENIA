@@ -74,3 +74,16 @@
 .karta1:hover {
     background-color: #e0e0e0;
 }
+
+.thumbnail-container {
+    position: relative;
+}
+
+.timestamp {
+    position: absolute;
+    bottom: 8px;
+    left: 210px;
+    background-color: black;
+    color: white;
+    padding: 1px 1px;
+}

@@ -1,39 +1,309 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Youtube</title>
+    <title>YouTube</title>
     <link rel="stylesheet" href="style.css">
-<style>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: #0f0f0f;
+        }
+
+        /* HORNÁ LIŠTA */
         .header {
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 10px 20px;
-            margin-bottom: 20px;
-        }
-        .search-bar {
-            width: 100%;
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-        }
-        .right-section {
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            height: 65px;
+            background-color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            border-bottom: 1px solid #eee;
         }
-        .header-profile-icon {
-            width: 32px; 
-            height: 32px; 
-            border-radius: 50%; 
-            object-fit: cover;
+
+        .left-section {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .menu-icon {
+            width: 32px;
+            height: 32px;
+            margin-right: 15px;
             cursor: pointer;
         }
+
         .yt-logo {
             height: 24px;
             cursor: pointer;
+        }
+
+        .middle {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 70px;
+            margin-right: 35px;
+            max-width: 550px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 10px 16px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-bar:focus {
+            border-color: #1c62b9;
+        }
+
+        .mic-icon {
+            width: 24px;
+            height: 30px;
+            margin-left: 12px;
+            cursor: pointer;
+        }
+
+        .right-section {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-shrink: 0;
+        }
+
+        .upload,
+        .menu,
+        .bell {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+            object-fit: contain;
+            cursor: pointer;
+        }
+
+        .header-profile-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        /* ĽAVÝ SIDEBAR */
+        .sidebar {
+            position: fixed;
+            top: 65px;
+            left: 0;
+            width: 200px;
+            height: calc(100vh - 65px);
+            background-color: white;
+            padding: 12px;
+            overflow-y: auto;
+            z-index: 50;
+        }
+
+        .sidebar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            width: 100%;
+            height: 74px;
+            margin-bottom: 5px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #0f0f0f;
+            font-size: 12px;
+            font-weight: normal;
+            transition: background-color 0.2s;
+        }
+
+        .sidebar-item:hover {
+            background-color: #f2f2f2;
+        }
+
+        .sidebar-item.active {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .sidebar-icon {
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* VIDEÁ */
+        .container {
+            margin-left: 200px;
+            margin-top: 85px;
+            padding: 10px 24px 30px;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 35px 20px;
+        }
+
+        .karta1 {
+            min-width: 0;
+            cursor: pointer;
+        }
+
+        .thumbnail-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            border-radius: 12px;
+            background-color: #eee;
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .timestamp {
+            position: absolute;
+            right: 8px;
+            bottom: 8px;
+            background-color: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 3px 5px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .info {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 12px;
+            gap: 12px;
+        }
+
+        .profilovka {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .name1 {
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+        }
+
+        .views1 {
+            display: inline-block;
+            margin-top: 5px;
+            font-size: 13px;
+            color: #606060;
+            line-height: 1.5;
+        }
+
+        .more {
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0 3px;
+        }
+
+        /* MENŠIE OBRAZOVKY */
+        @media (max-width: 1100px) {
+            .container {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .middle {
+                margin-left: 25px;
+                margin-right: 20px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .sidebar {
+                width: 75px;
+                padding: 8px 5px;
+            }
+
+            .sidebar-item {
+                height: 65px;
+                gap: 5px;
+                font-size: 10px;
+                padding: 3px;
+            }
+
+            .container {
+                margin-left: 75px;
+                padding: 10px;
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .middle {
+                margin: 0 10px;
+            }
+
+            .yt-logo {
+                height: 19px;
+            }
+
+            .menu-icon {
+                width: 25px;
+                height: 25px;
+                margin-right: 8px;
+            }
+
+            .right-section .menu,
+            .right-section .upload {
+                display: none;
+            }
+
+            .header {
+                padding: 8px;
+            }
         }
     </style>
 </head>
@@ -41,102 +311,206 @@
 <body>
 
     <div class="header">
-    <div class="left-section">
-    
-        <img class="yt-logo" src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube Logo">
-    </div>
-        <div class="middle" style="flex: 1; display: flex; justify-content: center; margin-left: 70px; margin-right: 35px;width: 100%; max-width: 499px;">
-        <input class="search-bar" type="text" placeholder="Hľadať">
-    </div>
-    <div class="right-section">
-        <img class="header-profile-icon" src="https://yt3.ggpht.com/ytc/AIdro_kRpDdYhAERS6ZGouNca_ugsVF8A3TE6IaAg34T3P1jeMA=s48-c-k-c0x00ffffff-no-rj" alt="Profilovka">
-    </div>
-</div>
-<div style="display: flex;">
-</div>
-<div class="container">
 
-    
-    <div class="karta1">
-        <img class="thumbnail" src="Obrazky/prasco.jpg" alt="YouTube video">
-        <div class="info">
-            <img class="profilovka" src="Obrazky/chov-prasiat-martin-bagar.jpg" alt="Profilovka">
-            <div class="text">
-                <span class="name1">Co robia osipane vo volnom case</span>
-                <br>
-                <span class="views1">15 views • 30 billion years ago</span>
-            </div>
-            <span class="more">⋮</span>
+        <div class="left-section">
+            <img
+                class="menu-icon"
+                src="https://www.nicepng.com/png/detail/14-147111_menu-button-png-menu-button-icon-png.png"
+                alt="Menu"
+            >
+
+            <img
+                class="yt-logo"
+                src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg"
+                alt="YouTube Logo"
+            >
         </div>
-    </div>
 
-    <div class="karta1">
-        <img class="thumbnail" src="Obrazky/2903847.jpg" alt="YouTube video">
-        <div class="info">
-            <img class="profilovka" src="Obrazky/original-angry-black-guy-mugshot-v0-jgb6s22e3svf1.png" alt="Profilovka">
-            <div class="text">
-                <span class="name1">Ako urobit zabijacku u vas na zahrade</span>
-                <br>
-                <span class="views1">600k views • 30 seconds ago</span>
-            </div>
-            <span class="more">⋮</span>
+        <div class="middle">
+            <input class="search-bar" type="text" placeholder="Hľadať">
+
+            <img
+                class="mic-icon"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1NxFUaSSWfon-kPhTlvFPeJUROHOiaSLdgvk7M64O0dKzlH8ZeTPlqQE&s=10"
+                alt="Mikrofón"
+            >
         </div>
-    </div>
 
-    <div class="karta1">
-        <img class="thumbnail" src="Obrazky/1.jpg" alt="YouTube video">
-        <div class="info">
-            <img class="profilovka" src="Obrazky/0709bd89-1b61-4d76-b4db-dae06578fc86.jpg" alt="Profilovka">
-            <div class="text">
-                <span class="name1">Najhorsie rozhodnutie bolo byt logista</span>
-                <br>
-                <span class="views1">600k views • 10 years ago</span>
-            </div>
-            <span class="more">⋮</span>
+        <div class="right-section">
+            <img
+                class="upload"
+                src="https://e7.pngegg.com/pngimages/566/186/png-clipart-video-cameras-graphy-youtube-youtube-rectangle-photography.png"
+                alt="Nahrať video"
+            >
+
+            <img
+                class="menu"
+                src="https://www.nicepng.com/png/detail/14-147111_menu-button-png-menu-button-icon-png.png"
+                alt="Menu aplikácií"
+            >
+
+            <img
+                class="bell"
+                src="https://www.citypng.com/public/uploads/preview/download-black-notification-bell-icon-png-735811696934391uul7qtm5np.png?v=2026082019"
+                alt="Upozornenia"
+            >
+
+            <img
+                class="header-profile-icon"
+                src="https://yt3.ggpht.com/ytc/AIdro_kRpDdYhAERS6ZGouNca_ugsVF8A3TE6IaAg34T3P1jeMA=s48-c-k-c0x00ffffff-no-rj"
+                alt="Profilovka"
+            >
         </div>
+
     </div>
 
-    <div class="karta1">
-        <img class="thumbnail" src="https://media.hornbach.sk/cms/sk/chke2-76/36768baa32430a85b95fe272976d16/obr-5-otazok-pri-vybere-rebrika-06.jpg?size=768" alt="YouTube video">
-        <div class="info">
-            <img class="profilovka" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/75/Feier1960.jpg/250px-Feier1960.jpg?utm_source=sk.wikipedia.org&utm_campaign=parser&utm_content=thumbnail" alt="Profilovka">
-            <div class="text">
-                <span class="name1">Ako chodiť bezpečne po rebríku</span>
-                <br>
-                <span class="views1">15 views • 30 billion years ago</span>
+    <div class="sidebar">
+
+        <a class="sidebar-item active">
+
+            <span class="sidebar-icon">
+            </span>
+
+            <span>Domov</span>
+
+        </a>
+
+        <a class="sidebar-item">
+            
+            <span class="sidebar-icon">
+            </span>
+            <span>Odbery</span>
+
+        </a>
+
+        <a href="#" class="sidebar-item">
+
+            <span class="sidebar-icon">
+            </span>
+
+            <span>Môj kanál</span>
+
+        </a>
+
+    </div>
+
+    <div class="container">
+
+        <div class="karta1">
+            <div class="thumbnail-container">
+                <img class="thumbnail" src="Obrazky/prasco.jpg" alt="YouTube video">
+                <span class="timestamp">12:45</span>
             </div>
-            <span class="more">⋮</span>
-        </div>
-    </div>
 
-    
-    <div class="karta1">
-        <img class="thumbnail" src="https://s1.dmcdn.net/v/cWUM-1gTknwu6NBFv/x240" alt="YouTube video">
-        <div class="info">
-            <img class="profilovka" src="https://external-preview.redd.it/mrbeast-says-he-will-run-for-president-of-the-u-s-if-they-v0-foq0ApswwC6HAvsePNgs8PPuBxNyqvvhnH1vOoPEpbs.jpg?auto=webp&s=6dfcd0dde88e908901dcdede69d7f11d76e1fd87" alt="Profilovka">
-            <div class="text">
-                <span class="name1">Pokúsil som sa utiecť z KNM!</span>
-                <br>
-                <span class="views1">600k views • 10 years ago</span>
+            <div class="info">
+                <img class="profilovka" src="Obrazky/chov-prasiat-martin-bagar.jpg" alt="Profilovka">
+
+                <div class="text">
+                    <span class="name1">Co robia osipane vo volnom case</span>
+                    <br>
+                    <span class="views1">15 views • 30 billion years ago</span>
+                </div>
+
+                <span class="more">⋮</span>
             </div>
-            <span class="more">⋮</span>
         </div>
-    </div>
 
-    <div class="karta1">
-        <img class="thumbnail" src="https://i.ytimg.com/vi/V2LpXOKWjus/hqdefault.jpg?sqp=-oaymwEmCOADEOgC8quKqQMa8AEB-AH-BIAC4AOKAgwIABABGGQgZShHMA8=&rs=AOn4CLDqZSNTAJtY4_8v1lAMj_torvHEWQ" alt="YouTube video">
-        <div class="info">
-            <img class="profilovka" src="https://yt3.ggpht.com/ytc/AIdro_kRpDdYhAERS6ZGouNca_ugsVF8A3TE6IaAg34T3P1jeMA=s48-c-k-c0x00ffffff-no-rj" alt="Profilovka">
-            <div class="text">
-                <span class="name1">Sólo na prádelní hrnec</span>
-                <br>
-                <span class="views1">15 views • 30 billion years ago</span>
+        <div class="karta1">
+            <div class="thumbnail-container">
+                <img class="thumbnail" src="Obrazky/2903847.jpg" alt="YouTube video">
+                <span class="timestamp">80:10</span>
             </div>
-            <span class="more">⋮</span>
-        </div>
-    </div>
 
-</div>
+            <div class="info">
+                <img class="profilovka" src="Obrazky/original-angry-black-guy-mugshot-v0-jgb6s22e3svf1.png" alt="Profilovka">
+
+                <div class="text">
+                    <span class="name1">Ako urobit zabijacku u vas na zahrade</span>
+                    <br>
+                    <span class="views1">600k views • 30 seconds ago</span>
+                </div>
+
+                <span class="more">⋮</span>
+            </div>
+        </div>
+
+        <div class="karta1">
+            <div class="thumbnail-container">
+                <img class="thumbnail" src="Obrazky/1.jpg" alt="YouTube video">
+                <span class="timestamp">20:88</span>
+            </div>
+
+            <div class="info">
+                <img class="profilovka" src="Obrazky/0709bd89-1b61-4d76-b4db-dae06578fc86.jpg" alt="Profilovka">
+
+                <div class="text">
+                    <span class="name1">Najhorsie rozhodnutie bolo byt logista</span>
+                    <br>
+                    <span class="views1">600k views • 10 years ago</span>
+                </div>
+
+                <span class="more">⋮</span>
+            </div>
+        </div>
+
+        <div class="karta1">
+            <div class="thumbnail-container">
+                <img class="thumbnail" src="https://media.hornbach.sk/cms/sk/chke2-76/36768baa32430a85b95fe272976d16/obr-5-otazok-pri-vybere-rebrika-06.jpg?size=768" alt="YouTube video">
+                <span class="timestamp">44:88</span>
+            </div>
+
+            <div class="info">
+                <img class="profilovka" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/75/Feier1960.jpg/250px-Feier1960.jpg?utm_source=sk.wikipedia.org&utm_campaign=parser&utm_content=thumbnail" alt="Profilovka">
+
+                <div class="text">
+                    <span class="name1">Ako chodiť bezpečne po rebríku</span>
+                    <br>
+                    <span class="views1">15 views • 30 billion years ago</span>
+                </div>
+
+                <span class="more">⋮</span>
+            </div>
+        </div>
+
+        <div class="karta1">
+            <div class="thumbnail-container">
+                <img class="thumbnail" src="https://s1.dmcdn.net/v/cWUM-1gTknwu6NBFv/x240" alt="YouTube video">
+                <span class="timestamp">24:58</span>
+            </div>
+
+            <div class="info">
+                <img class="profilovka" src="https://external-preview.redd.it/mrbeast-says-he-will-run-for-president-of-the-u-s-if-they-v0-foq0ApswwC6HAvsePNgs8PPuBxNyqvvhnH1vOoPEpbs.jpg?auto=webp&s=6dfcd0dde88e908901dcdede69d7f11d76e1fd87" alt="Profilovka">
+
+                <div class="text">
+                    <span class="name1">Pokúsil som sa utiecť z KNM!</span>
+                    <br>
+                    <span class="views1">600k views • 10 years ago</span>
+                </div>
+
+                <span class="more">⋮</span>
+            </div>
+        </div>
+
+        <div class="karta1">
+            <div class="thumbnail-container">
+                <img class="thumbnail" src="https://i.ytimg.com/vi/V2LpXOKWjus/hqdefault.jpg?sqp=-oaymwEmCOADEOgC8quKqQMa8AEB-AH-BIAC4AOKAgwIABABGGQgZShHMA8=&rs=AOn4CLDqZSNTAJtY4_8v1lAMj_torvHEWQ" alt="YouTube video">
+                <span class="timestamp">24:58</span>
+            </div>
+
+            <div class="info">
+                <img class="profilovka" src="https://yt3.ggpht.com/ytc/AIdro_kRpDdYhAERS6ZGouNca_ugsVF8A3TE6IaAg34T3P1jeMA=s48-c-k-c0x00ffffff-no-rj" alt="Profilovka">
+
+                <div class="text">
+                    <span class="name1">Sólo na prádelní hrnec</span>
+                    <br>
+                    <span class="views1">15 views • 30 billion years ago</span>
+                </div>
+
+                <span class="more">⋮</span>
+            </div>
+        </div>
+
+    </div>
 
 </body>
 </html>
